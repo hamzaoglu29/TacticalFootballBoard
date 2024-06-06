@@ -3,24 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halısaha Takım Oluşturucu</title>
+    <title>Halı Saha Takım Kurma</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Halısaha Takım Oluşturucu</h1>
-        <div class="settings">
-            <label for="playerCount">Oyuncu Sayısı:</label>
-            <input type="number" id="playerCount" value="5" min="1">
-            <button onclick="generateInputs()">Oyuncuları Gir</button>
+        <div class="form-container">
+            <input type="text" id="playerName" placeholder="Oyuncu Adı">
+            <button onclick="addPlayer()">Oyuncu Ekle</button>
         </div>
-        <div class="teams" id="teams">
-            <!-- Takım giriş alanları buraya eklenecek -->
+        <div class="field">
+            <img src="halisaha.jpg" alt="Halı Saha" id="halisaha">
         </div>
-        <button onclick="assignTeams()">Takımları Oluştur</button>
-        <div class="result" id="result"></div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
