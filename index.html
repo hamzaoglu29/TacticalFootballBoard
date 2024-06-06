@@ -206,20 +206,20 @@
         function placePlayers() {
             const playerNames = playerListInput.value.split('\n');
             const topFormation = [
-                [canvas.width * 0.15, canvas.height * 0.2], 
-                [canvas.width * 0.15, canvas.height * 0.4], 
-                [canvas.width * 0.15, canvas.height * 0.6], 
-                [canvas.width * 0.3, canvas.height * 0.2], 
-                [canvas.width * 0.3, canvas.height * 0.4], 
-                [canvas.width * 0.3, canvas.height * 0.6]
+                [canvas.width * 0.2, canvas.height * 0.15], 
+                [canvas.width * 0.4, canvas.height * 0.15], 
+                [canvas.width * 0.6, canvas.height * 0.15], 
+                [canvas.width * 0.2, canvas.height * 0.3], 
+                [canvas.width * 0.4, canvas.height * 0.3], 
+                [canvas.width * 0.6, canvas.height * 0.3]
             ];
             const bottomFormation = [
-                [canvas.width * 0.7, canvas.height * 0.2], 
-                [canvas.width * 0.7, canvas.height * 0.4], 
-                [canvas.width * 0.7, canvas.height * 0.6], 
-                [canvas.width * 0.85, canvas.height * 0.2], 
-                [canvas.width * 0.85, canvas.height * 0.4], 
-                [canvas.width * 0.85, canvas.height * 0.6]
+                [canvas.width * 0.2, canvas.height * 0.7], 
+                [canvas.width * 0.4, canvas.height * 0.7], 
+                [canvas.width * 0.6, canvas.height * 0.7], 
+                [canvas.width * 0.2, canvas.height * 0.85], 
+                [canvas.width * 0.4, canvas.height * 0.85], 
+                [canvas.width * 0.6, canvas.height * 0.85]
             ];
             let isFirstTeam = true;
             let teamColors = ["#000000", "#ffffff"]; // Black and White
