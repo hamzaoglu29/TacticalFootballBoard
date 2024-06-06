@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('football-field.jpg');
+    background-size: cover;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.settings, .teams, .result {
+    margin-bottom: 20px;
+}
+
+.settings label {
+    margin-right: 10px;
+}
+
+.settings button, .teams button {
+    margin-top: 10px;
+}
+
+.team {
+    margin-bottom: 20px;
+}
+
+.team input {
+    display: block;
+    margin: 5px 0;
+}
+
+.result .team {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.black {
+    color: white;
+    background-color: black;
+}
+
+.white {
+    color: black;
+    background-color: white;
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halısaha Takım Oluşturucu</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Halısaha Takım Oluşturucu</h1>
+        <div class="settings">
+            <label for="playerCount">Oyuncu Sayısı:</label>
+            <input type="number" id="playerCount" value="5" min="1">
+            <button onclick="generateInputs()">Oyuncuları Gir</button>
+        </div>
+        <div class="teams" id="teams">
+            <!-- Takım giriş alanları buraya eklenecek -->
+        </div>
+        <button onclick="assignTeams()">Takımları Oluştur</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
