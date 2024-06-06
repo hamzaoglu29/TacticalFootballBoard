@@ -5,6 +5,8 @@ body, html {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
+    background-color: #333;
+    color: white;
 }
 
 .container {
@@ -70,4 +72,22 @@ body, html {
 #team2Text {
     background-color: white;
     color: black;
+}
+
+#team1Goal {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+    font-size: 24px;
+}
+
+#team2Goal {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px;
 }
