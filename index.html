@@ -3,20 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halı Saha Takım Kurma</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Tactical Football Board</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            width: 100%;
+            height: 100vh;
+        }
+        #controls {
+            margin-top: 10px;
+        }
+        #inputArea {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <input type="text" id="playerName" placeholder="Oyuncu Adı">
-            <button onclick="addPlayer()">Oyuncu Ekle</button>
-            <button onclick="setTeamColors()">Takım Renklerini Seç</button>
-        </div>
-        <div class="field">
-            <img src="halisaha.jpg" alt="Halı Saha" id="halisaha">
-        </div>
+    <canvas id="footballField"></canvas>
+    <div id="controls">
+        <textarea id="playerList" rows="10" cols="30" placeholder="Enter player names. Use a blank line to separate teams."></textarea>
+        <button onclick="placePlayers()">Place Players</button>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const canvas = document.getElementById('footballField');
+        const ctx = canvas.getContext('2d');
+        const playerListInput = document.getElementById('playerList');
+        let selectedPlayer = null;
+
+        function drawField() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            ctx.fillStyle = 'green';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height / 2);
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+
+        const players = [];
+
+        function getMousePos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+        function getTouchPos(canvas, touch) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top
+            };
+        }
+
+        function handlePlayerSelection(x, y) {
+            selectedPlayer = players.find(player => Math.hypot(player.x - x, player.y - y) < 10);
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            const pos = getMousePos(canvas, e);
+            handlePlayerSelection(pos.x, pos.y);
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            const pos = getTouchPos(canvas, touch);
+            handlePlayerSelection(pos.x, pos.y);
+            e.preventDefault();
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (selectedPlayer && e.buttons === 1) {
+                const pos = getMousePos(canvas, e);
+                selectedPlayer.x = pos.x;
+                selectedPlayer.y = pos.y;
+                drawField();
+                drawPlayers();
+                drawLines();
+            }
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (selectedPlayer) {
+                const touch = e.touches[0];
+                const pos = getTouchPos(canvas, touch);
+                selectedPlayer.x = pos.x;
+                selectedPlayer.y = pos.y;
+                drawField();
+                drawPlayers();
+                drawLines();
+                e.preventDefault();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            selectedPlayer = null;
+        });
+
+        canvas.addEventListener('touchend', () => {
+            selectedPlayer = null;
+        });
+
+        function addPlayer(x, y, color, name) {
+            const player = { x, y, id: players.length + 1, name, color };
+            players.push(player);
+            drawPlayers();
+        }
+
+        function drawPlayers() {
+            players.forEach(player => {
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+                ctx.fillStyle = player.color;
+                ctx.fill();
+                ctx.stroke();
+                if (player.name) {
+                    ctx.fillStyle = 'black';
+                    ctx.fillText(player.name, player.x + 12, player.y + 4);
+                }
+            });
+        }
+
+        let drawing = false;
+        let lines = [];
+
+        canvas.addEventListener('mousedown', (e) => {
+            if (!selectedPlayer) {
+                drawing = true;
+                lines.push({ startX: e.offsetX, startY: e.offsetY, endX: null, endY: null });
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (drawing) {
+                const currentLine = lines[lines.length - 1];
+                currentLine.endX = e.offsetX;
+                currentLine.endY = e.offsetY;
+                drawField();
+                drawPlayers();
+                drawLines();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+
+        function drawLines() {
+            lines.forEach(line => {
+                if (line.endX !== null && line.endY !== null) {
+                    ctx.beginPath();
+                    ctx.moveTo(line.startX, line.startY);
+                    ctx.lineTo(line.endX, line.endY);
+                    ctx.stroke();
+                }
+            });
+        }
+
+        function placePlayers() {
+            const playerNames = playerListInput.value.split('\n');
+            const topFormation = [[100, 100], [200, 100], [300, 100], [100, 200], [200, 200], [300, 200]];
+            const bottomFormation = [[100, 700], [200, 700], [300, 700], [100, 600], [200, 600], [300, 600]];
+            let isFirstTeam = true;
+            let teamColors = ["#000000", "#ffffff"]; // Black and White
+            if (Math.random() < 0.5) {
+                teamColors.reverse();
+            }
+
+            players.length = 0;
+            let topIndex = 0;
+            let bottomIndex = 0;
+
+            playerNames.forEach(name => {
+                if (name.trim() === '') {
+                    isFirstTeam = false;
+                } else {
+                    if (isFirstTeam) {
+                        const [x, y] = topFormation[topIndex];
+                        addPlayer(x, y, teamColors[0], name.trim());
+                        topIndex++;
+                    } else {
+                        const [x, y] = bottomFormation[bottomIndex];
+                        addPlayer(x, y, teamColors[1], name.trim());
+                        bottomIndex++;
+                    }
+                }
+            });
+
+            drawField();
+            drawPlayers();
+            drawLines();
+        }
+
+        drawField();
+    </script>
 </body>
 </html>
