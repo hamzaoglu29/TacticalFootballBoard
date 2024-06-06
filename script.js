@@ -10,14 +10,13 @@ function addPlayer() {
 
     let teamColor = teamColors[playerCount % 2];
     playerDiv.classList.add(teamColor);
-
+    playerDiv.setAttribute('draggable', 'true');
     playerDiv.innerText = playerName;
-    playerDiv.setAttribute('draggable', true);
-    playerDiv.ondragstart = dragStart;
 
     playerDiv.style.top = `${Math.random() * 500 + 50}px`;
     playerDiv.style.left = `${Math.random() * 700 + 50}px`;
 
+    playerDiv.addEventListener('dragstart', dragStart);
     document.querySelector('.field').appendChild(playerDiv);
 
     playerCount++;
@@ -27,7 +26,7 @@ function dragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.id);
 }
 
-document.querySelector('.field').ondrop = function(event) {
+document.querySelector('.field').addEventListener('drop', function(event) {
     event.preventDefault();
     const id = event.dataTransfer.getData('text');
     const draggableElement = document.getElementById(id);
@@ -41,13 +40,15 @@ document.querySelector('.field').ondrop = function(event) {
         draggableElement.style.left = `${offsetX - draggableElement.offsetWidth / 2}px`;
         draggableElement.style.top = `${offsetY - draggableElement.offsetHeight / 2}px`;
     }
-};
+});
 
-document.querySelector('.field').ondragover = function(event) {
+document.querySelector('.field').addEventListener('dragover', function(event) {
     event.preventDefault();
-};
+});
 
 function setTeamColors() {
+    const field = document.querySelector('.field');
+
     const team1Text = document.createElement('div');
     team1Text.id = 'team1Text';
     team1Text.innerText = 'Siyah';
@@ -56,24 +57,14 @@ function setTeamColors() {
     team2Text.id = 'team2Text';
     team2Text.innerText = 'Beyaz';
 
-    const team1Pos = getRandomPosition();
-    const team2Pos = getRandomPosition();
+    team1Text.style.top = '50px';
+    team1Text.style.left = '50px';
 
-    team1Text.style.top = `${team1Pos.y}px`;
-    team1Text.style.left = `${team1Pos.x}px`;
+    team2Text.style.top = '500px';
+    team2Text.style.left = '50px';
 
-    team2Text.style.top = `${team2Pos.y}px`;
-    team2Text.style.left = `${team2Pos.x}px`;
-
-    document.querySelector('.field').appendChild(team1Text);
-    document.querySelector('.field').appendChild(team2Text);
-}
-
-function getRandomPosition() {
-    return {
-        x: Math.random() * 700 + 50,
-        y: Math.random() * 500 + 50
-    };
+    field.appendChild(team1Text);
+    field.appendChild(team2Text);
 }
 
 window.onload = function() {
