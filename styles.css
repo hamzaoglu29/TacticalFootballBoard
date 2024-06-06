@@ -38,7 +38,7 @@ body, html {
     align-items: center;
     color: white;
     font-weight: bold;
-    cursor: pointer;
+    cursor: move;
     user-select: none;
 }
 
@@ -51,20 +51,23 @@ body, html {
     color: black;
 }
 
-#team1Goal {
+#team1Text, #team2Text {
     position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: black;
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 24px;
+    font-weight: bold;
 }
 
-#team2Goal {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+#team1Text {
+    background-color: black;
     color: white;
-    font-size: 24px;
+}
+
+#team2Text {
+    background-color: white;
+    color: black;
 }
